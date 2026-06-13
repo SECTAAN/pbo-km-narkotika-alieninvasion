@@ -2,10 +2,10 @@ package kms_java.view;
 
 import java.util.Scanner;
 
-public class MainView {
+public class ConsoleView {
     private Scanner scanner;
 
-    public MainView() {
+    public ConsoleView() {
 
         this.scanner = new Scanner(System.in);
     }
@@ -26,11 +26,11 @@ public class MainView {
         System.out.print("Masukkan pilihan Anda (1-4): ");
         while (!scanner.hasNextInt()) {
             System.out.println("[ERROR] Input tidak valid! Harap masukkan angka.");
-            scanner.next(); // Membersihkan input yang salah
+            scanner.next();
             System.out.print("Masukkan pilihan Anda (1-4): ");
         }
         int pilihan = scanner.nextInt();
-        scanner.nextLine(); // Membersihkan sisa enter (newline)
+        scanner.nextLine();
         return pilihan;
     }
 

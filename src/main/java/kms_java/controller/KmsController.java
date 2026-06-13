@@ -1,15 +1,15 @@
 package kms_java.controller;
 
 import kms_java.model.Putusan;
-import kms_java.view.MainView;
+import kms_java.view.ConsoleView;
 import java.util.ArrayList;
 
 public class KmsController {
-    private MainView view;
+    private ConsoleView view;
     private ArrayList<Putusan> databasePutusan;
 
     public KmsController() {
-        this.view = new MainView();
+        this.view = new ConsoleView();
         this.databasePutusan = new ArrayList<>();
     }
 
