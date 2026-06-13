@@ -2,10 +2,10 @@ package kms_java.model;
 
 import java.util.ArrayList;
 
-public class PutusanRepository {
+public class KnowledgeRepository {
     private ArrayList<Putusan> daftarPutusan;
 
-    public PutusanRepository() {
+    public KnowledgeRepository() {
         this.daftarPutusan = new ArrayList<>();
     }
 

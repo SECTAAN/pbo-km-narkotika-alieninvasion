@@ -1,17 +1,17 @@
 package kms_java.controller;
 
 import kms_java.model.Putusan;
-import kms_java.model.PutusanRepository;
-import kms_java.view.MainView;
+import kms_java.model.KnowledgeRepository;
+import kms_java.view.ConsoleView;
 import java.util.ArrayList;
 
-public class KmsController {
-    private MainView view;
-    private PutusanRepository repository;
+public class KnowledgeController {
+    private ConsoleView view;
+    private KnowledgeRepository repository;
 
-    public KmsController() {
-        this.view = new MainView();
-        this.repository = new PutusanRepository();
+    public KnowledgeController() {
+        this.view = new ConsoleView();
+        this.repository = new KnowledgeRepository();
     }
 
     public void mulaiAplikasi() {

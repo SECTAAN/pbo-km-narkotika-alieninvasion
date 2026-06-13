@@ -2,10 +2,10 @@ package kms_java.view;
 
 import java.util.Scanner;
 
-public class MainView {
+public class ConsoleView {
     private Scanner scanner;
 
-    public MainView() {
+    public ConsoleView() {
         // Inisialisasi alat pembaca input keyboard
         this.scanner = new Scanner(System.in);
     }
