@@ -6,7 +6,7 @@ public class MainView {
     private Scanner scanner;
 
     public MainView() {
-        // Inisialisasi alat pembaca input keyboard
+
         this.scanner = new Scanner(System.in);
     }
 
@@ -21,7 +21,7 @@ public class MainView {
         System.out.println("=============================================");
     }
 
-    // Fungsi untuk meminta *user* memilih angka menu
+
     public int ambilPilihanMenu() {
         System.out.print("Masukkan pilihan Anda (1-4): ");
         while (!scanner.hasNextInt()) {
@@ -34,18 +34,18 @@ public class MainView {
         return pilihan;
     }
 
-    // Fungsi serbaguna untuk menampilkan notifikasi ke layar
+
     public void tampilkanPesan(String pesan) {
         System.out.println(">> " + pesan);
     }
 
-    // Fungsi untuk meminta input teks panjang dari *user*
+
     public String ambilInputTeks(String perintah) {
         System.out.print(perintah + ": ");
         return scanner.nextLine();
     }
 
-    // Fungsi untuk meminta input angka desimal (misal: berat barang bukti)
+
     public double ambilInputAngkaDesimal(String perintah) {
         System.out.print(perintah + ": ");
         while (!scanner.hasNextDouble()) {
