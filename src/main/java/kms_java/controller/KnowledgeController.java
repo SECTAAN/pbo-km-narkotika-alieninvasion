@@ -5,11 +5,11 @@ import kms_java.model.PutusanRepository;
 import kms_java.view.MainView;
 import java.util.ArrayList;
 
-public class KmsController {
+public class KnowledgeController {
     private MainView view;
     private PutusanRepository repository;
 
-    public KmsController() {
+    public KnowledgeController() {
         this.view = new MainView();
         this.repository = new PutusanRepository();
     }
