@@ -1,6 +1,7 @@
 module alieninvasion.pbokmnarkotikaalieninvasion {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.apache.pdfbox;
     
     opens kms_java.view to javafx.fxml;
     opens kms_java.controller to javafx.fxml;
@@ -9,4 +10,5 @@ module alieninvasion.pbokmnarkotikaalieninvasion {
     exports kms_java.controller;
     exports kms_java.view;
     exports kms_java.model;
+    exports kms_java.util;
 }
