@@ -16,6 +16,17 @@ public class Putusan extends DokumenHukum {
 
     private static int jumlahDibuat = 0;
 
+    public Putusan() {
+        super("Belum Ada Nomor");
+        this.namaTerdakwa = "Belum Diketahui";
+        this.jenisNarkotika = "Belum Diketahui";
+        this.pengadilan = "PN Default";
+        this.tanggalPutusan = "Belum Diketahui";
+        this.peranTerdakwa = "Terdakwa";
+        this.namaHakim = "Belum Diketahui";
+        jumlahDibuat++;
+    }
+
     public Putusan(String nomorPutusan, String namaTerdakwa, String jenisNarkotika, double beratBarangBukti, String pasal, String vonis) {
         super(nomorPutusan);
         this.namaTerdakwa = namaTerdakwa;
@@ -32,6 +43,18 @@ public class Putusan extends DokumenHukum {
         this.namaHakim = "Belum Diketahui";
 
         jumlahDibuat++;
+    }
+
+    public void tampilkan() {
+        System.out.println("No: " + nomorPutusan + " | Terdakwa: " + namaTerdakwa);
+    }
+
+    public void tampilkan(boolean detail) {
+        if (detail) {
+            System.out.println("No: " + nomorPutusan + "\nTerdakwa: " + namaTerdakwa + "\nNarkotika: " + jenisNarkotika + " (" + beratBarangBukti + "g)");
+        } else {
+            tampilkan(); // Memanggil method di atasnya
+        }
     }
 
     public String getNamaTerdakwa() { return namaTerdakwa; }
