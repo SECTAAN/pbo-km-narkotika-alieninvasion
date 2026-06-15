@@ -22,4 +22,16 @@ public class StatistikPutusan {
         }
         return Math.round((totalBerat / daftar.size()) * 100.0) / 100.0;
     }
+
+    public String getJenisTerbanyak(ArrayList<Putusan> daftar) {
+        int sabu = hitungTotalPerJenis(daftar, "sabu");
+        int ganja = hitungTotalPerJenis(daftar, "ganja");
+        int ekstasi = hitungTotalPerJenis(daftar, "ekstasi");
+
+        if (sabu >= ganja && sabu >= ekstasi) return "Sabu-sabu (" + sabu + " kasus)";
+        if (ganja >= sabu && ganja >= ekstasi) return "Ganja (" + ganja + " kasus)";
+        if (ekstasi >= sabu && ekstasi >= ganja) return "Ekstasi (" + ekstasi + " kasus)";
+
+        return "Belum dapat ditentukan";
+    }
 }
