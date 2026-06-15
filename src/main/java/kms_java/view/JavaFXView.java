@@ -15,6 +15,7 @@ public class JavaFXView {
     private Button btnStatistik;
     private Button btnHapus;
 
+    private Button btnClear;
 
     private TextField txtCari;
     private Button btnCari;
@@ -29,15 +30,22 @@ public class JavaFXView {
         btnLoadPdf = new Button("Muat Data PDF dari Folder");
         btnLoadPdf.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;");
 
+
+        btnClear = new Button("Bersihkan Tabel");
+        btnClear.setStyle("-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;");
+
         btnStatistik = new Button("Tampilkan Analisis Statistik");
         btnStatistik.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;");
 
         btnHapus = new Button("Hapus Data Terpilih");
         btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        VBox topBox = new VBox(10, lblTitle, btnLoadPdf, btnStatistik, btnHapus);
-        topBox.setPadding(new Insets(0, 0, 10, 0));
 
+        HBox boxAksiData = new HBox(10, btnLoadPdf, btnClear);
+        HBox boxAksiLanjutan = new HBox(10, btnStatistik, btnHapus);
+
+        VBox topBox = new VBox(10, lblTitle, boxAksiData, boxAksiLanjutan);
+        topBox.setPadding(new Insets(0, 0, 10, 0));
 
         txtCari = new TextField();
         txtCari.setPromptText("Cari nama terdakwa atau nomor...");
@@ -48,7 +56,6 @@ public class JavaFXView {
 
         HBox searchBox = new HBox(10, new Label("Pencarian:"), txtCari, btnCari);
         searchBox.setPadding(new Insets(0, 0, 15, 0));
-
 
         VBox kombinasiHeader = new VBox(10, topBox, searchBox);
         mainLayout.setTop(kombinasiHeader);
@@ -84,8 +91,8 @@ public class JavaFXView {
     public Button getBtnLoadPdf() { return btnLoadPdf; }
     public Button getBtnStatistik() { return btnStatistik; }
     public Button getBtnHapus() { return btnHapus; }
-
-
     public TextField getTxtCari() { return txtCari; }
     public Button getBtnCari() { return btnCari; }
+
+    public Button getBtnClear() { return btnClear; }
 }
