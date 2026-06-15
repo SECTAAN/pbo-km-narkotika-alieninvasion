@@ -5,6 +5,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PdfReader {
     public Putusan prosesPdfKeObjek(String lokasiFile) {
@@ -14,8 +16,31 @@ public class PdfReader {
             teksMentah = penyedot.getText(dokumen);
         } catch (IOException e) {
             System.out.println("[ERROR] Gagal membaca PDF: " + lokasiFile);
+            return null;
         }
 
-        return new Putusan("Belum Diambil", "Belum Diambil", "Belum Diambil", 0.0, "Belum Diambil", "Belum Diambil");
+        String nomor = ekstrakDenganRegex(teksMentah, "Nomor\\s+([\\w\\/\\.-]+)\\s*");
+        String terdakwa = ekstrakDenganRegex(teksMentah, "Terdakwa\\s+([A-Za-z\\s]+)\\s+");
+        String jenis = ekstrakDenganRegex(teksMentah, "(Sabu|Ganja|Ekstasi|Narkotika Golongan\\s+[IVX]+)");
+        String vonis = ekstrakDenganRegex(teksMentah, "menjatuhkan\\s+pidana.*?selama\\s+([\\w\\s]+)\\s*");
+
+        double berat = 0.0;
+        String teksBerat = ekstrakDenganRegex(teksMentah, "([0-9]+[\\.,]?[0-9]*)\\s*(gram|gr)");
+        if (!teksBerat.equals("Tidak Ditemukan")) {
+            try {
+                berat = Double.parseDouble(teksBerat.replace(",", "."));
+            } catch (NumberFormatException ignored) {}
+        }
+
+        return new Putusan(nomor, terdakwa, jenis, berat, "Pasal Narkotika", vonis);
+    }
+
+    private String ekstrakDenganRegex(String teksLengkap, String polaRegex) {
+        Pattern pattern = Pattern.compile(polaRegex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(teksLengkap);
+        if (matcher.find()) {
+            return matcher.group(1).trim();
+        }
+        return "Tidak Ditemukan";
     }
 }
