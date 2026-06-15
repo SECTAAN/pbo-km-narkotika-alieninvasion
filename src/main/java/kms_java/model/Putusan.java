@@ -1,6 +1,6 @@
 package kms_java.model;
 
-public class Putusan extends DokumenHukum {
+public class Putusan extends DokumenHukum implements Comparable<Putusan> {
     private String namaTerdakwa;
     private String jenisNarkotika;
     private double beratBarangBukti;
@@ -53,7 +53,7 @@ public class Putusan extends DokumenHukum {
         if (detail) {
             System.out.println("No: " + nomorPutusan + "\nTerdakwa: " + namaTerdakwa + "\nNarkotika: " + jenisNarkotika + " (" + beratBarangBukti + "g)");
         } else {
-            tampilkan(); // Memanggil method di atasnya
+            tampilkan();
         }
     }
 
@@ -76,5 +76,10 @@ public class Putusan extends DokumenHukum {
     @Override
     public String dapatkanRingkasan() {
         return "Putusan No: " + nomorPutusan + " | Terdakwa: " + namaTerdakwa;
+    }
+
+    @Override
+    public int compareTo(Putusan lainnya) {
+        return Double.compare(lainnya.getBeratBarangBukti(), this.beratBarangBukti);
     }
 }
