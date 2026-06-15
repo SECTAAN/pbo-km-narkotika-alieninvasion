@@ -14,6 +14,8 @@ public class Putusan extends DokumenHukum {
     private double vonisDenda;
     private String namaHakim;
 
+    private static int jumlahDibuat = 0;
+
     public Putusan(String nomorPutusan, String namaTerdakwa, String jenisNarkotika, double beratBarangBukti, String pasal, String vonis) {
         super(nomorPutusan);
         this.namaTerdakwa = namaTerdakwa;
@@ -28,6 +30,8 @@ public class Putusan extends DokumenHukum {
         this.peranTerdakwa = "Terdakwa";
         this.vonisDenda = 0.0;
         this.namaHakim = "Belum Diketahui";
+
+        jumlahDibuat++;
     }
 
     public String getNamaTerdakwa() { return namaTerdakwa; }
@@ -35,13 +39,16 @@ public class Putusan extends DokumenHukum {
     public double getBeratBarangBukti() { return beratBarangBukti; }
     public String getPasal() { return pasal; }
     public String getVonis() { return vonis; }
-
     public String getPengadilan() { return pengadilan; }
     public String getTanggalPutusan() { return tanggalPutusan; }
     public int getUmurTerdakwa() { return umurTerdakwa; }
     public String getPeranTerdakwa() { return peranTerdakwa; }
     public double getVonisDenda() { return vonisDenda; }
     public String getNamaHakim() { return namaHakim; }
+
+    public static int getJumlahDibuat() {
+        return jumlahDibuat;
+    }
 
     @Override
     public String dapatkanRingkasan() {
