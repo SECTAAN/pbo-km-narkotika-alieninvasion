@@ -12,6 +12,7 @@ public class JavaFXView {
     private TableView<Putusan> table;
     private Button btnLoadPdf;
     private Button btnStatistik;
+    private Button btnHapus;
 
     public JavaFXView() {
         mainLayout = new BorderPane();
@@ -27,7 +28,10 @@ public class JavaFXView {
         btnStatistik = new Button("Tampilkan Analisis Statistik");
         btnStatistik.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        VBox topBox = new VBox(10, lblTitle, btnLoadPdf, btnStatistik);
+        btnHapus = new Button("Hapus Data Terpilih");
+        btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        VBox topBox = new VBox(10, lblTitle, btnLoadPdf, btnStatistik, btnHapus);
         topBox.setPadding(new Insets(0, 0, 15, 0));
         mainLayout.setTop(topBox);
 
@@ -64,4 +68,5 @@ public class JavaFXView {
     public TableView<Putusan> getTable() { return table; }
     public Button getBtnLoadPdf() { return btnLoadPdf; }
     public Button getBtnStatistik() { return btnStatistik; }
+    public Button getBtnHapus() { return btnHapus; }
 }
