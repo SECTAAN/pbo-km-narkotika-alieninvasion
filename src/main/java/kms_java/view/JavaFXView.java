@@ -42,7 +42,7 @@ public class JavaFXView {
         btnHapus = new Button("Hapus Data Terpilih");
         btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        btnExport = new Button("Export TXT (+2 Poin)");
+        btnExport = new Button("Export TXT");
         btnExport.setStyle("-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold;");
 
         HBox boxAksiData = new HBox(10, btnLoadPdf, btnClear);
