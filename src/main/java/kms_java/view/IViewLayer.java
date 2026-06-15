@@ -1,4 +1,7 @@
 package kms_java.view;
 
-public class IViewLayer {
+
+public interface IViewLayer {
+    void tampilkanPesan(String pesan);
+    void bersihkanLayar();
 }
