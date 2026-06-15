@@ -15,11 +15,13 @@ public class JavaFXView {
     private Button btnStatistik;
     private Button btnHapus;
     private Button btnClear;
-
     private Button btnExport;
 
     private TextField txtCari;
     private Button btnCari;
+
+
+    private Label lblStatus;
 
     public JavaFXView() {
         mainLayout = new BorderPane();
@@ -40,12 +42,10 @@ public class JavaFXView {
         btnHapus = new Button("Hapus Data Terpilih");
         btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
 
-
         btnExport = new Button("Export TXT (+2 Poin)");
         btnExport.setStyle("-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold;");
 
         HBox boxAksiData = new HBox(10, btnLoadPdf, btnClear);
-
         HBox boxAksiLanjutan = new HBox(10, btnStatistik, btnHapus, btnExport);
 
         VBox topBox = new VBox(10, lblTitle, boxAksiData, boxAksiLanjutan);
@@ -88,6 +88,11 @@ public class JavaFXView {
 
         table.getColumns().addAll(colNomor, colTerdakwa, colJenis, colBerat, colVonis);
         mainLayout.setCenter(table);
+
+
+        lblStatus = new Label("Total Data: 0 | Siap Digunakan");
+        lblStatus.setStyle("-fx-font-weight: bold; -fx-padding: 10px 0 0 0; -fx-text-fill: #7f8c8d;");
+        mainLayout.setBottom(lblStatus);
     }
 
     public BorderPane getMainLayout() { return mainLayout; }
@@ -98,6 +103,7 @@ public class JavaFXView {
     public Button getBtnClear() { return btnClear; }
     public TextField getTxtCari() { return txtCari; }
     public Button getBtnCari() { return btnCari; }
-
     public Button getBtnExport() { return btnExport; }
+
+    public Label getLblStatus() { return lblStatus; }
 }
