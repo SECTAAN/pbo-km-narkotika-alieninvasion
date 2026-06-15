@@ -1,100 +1,119 @@
 package kms_java.controller;
 
-import kms_java.model.Putusan;
 import kms_java.model.KnowledgeRepository;
+import kms_java.model.Putusan;
+import kms_java.model.StatistikPutusan;
+import kms_java.util.InputHandler;
+import kms_java.util.PdfReader;
 import kms_java.view.ConsoleView;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class KnowledgeController {
-    private ConsoleView view;
     private KnowledgeRepository repository;
+    private StatistikPutusan statistik;
+    private ConsoleView view; // Bisa digunakan nanti jika ada method khusus tampilan
+    private InputHandler inputHandler;
+    private PdfReader pdfReader;
 
     public KnowledgeController() {
-        this.view = new ConsoleView();
         this.repository = new KnowledgeRepository();
+        this.statistik = new StatistikPutusan();
+        this.view = new ConsoleView();
+        this.inputHandler = new InputHandler();
+        this.pdfReader = new PdfReader();
     }
 
     public void mulaiAplikasi() {
-        view.tampilkanPesan("Sistem KMS Narkotika Memulai...\n");
         boolean isRunning = true;
+        System.out.println("===============================================");
+        System.out.println(" KMS PUTUSAN PENGADILAN NARKOTIKA (CLI MODE)   ");
+        System.out.println("===============================================");
 
         while (isRunning) {
-            view.tampilkanMenuUtama();
-            int pilihan = view.ambilPilihanMenu();
+            System.out.println("\nMenu Utama:");
+            System.out.println("1. Muat Dataset dari Folder PDF");
+            System.out.println("2. Tampilkan Seluruh Data Putusan");
+            System.out.println("3. Analisis & Statistik Data");
+            System.out.println("4. Keluar");
+            System.out.print("Pilih menu (1-4): ");
+
+            int pilihan = inputHandler.ambilInputAngka();
 
             switch (pilihan) {
                 case 1:
-                    tambahDataPutusan();
+                    muatDatasetPdf();
                     break;
                 case 2:
-                    tampilkanSemuaData();
+                    tampilkanData();
                     break;
                 case 3:
-                    cariDataPutusan();
+                    tampilkanStatistik();
                     break;
                 case 4:
-                    view.tampilkanPesan("Terima kasih telah menggunakan sistem KMS. Program dihentikan.");
+                    System.out.println("Terima kasih. Program dihentikan.");
                     isRunning = false;
                     break;
                 default:
-                    view.tampilkanPesan("[ERROR] Pilihan tidak ada di menu. Silakan coba lagi.");
+                    System.out.println("[ERROR] Pilihan tidak valid, silakan coba lagi.");
             }
         }
     }
 
-    private void tambahDataPutusan() {
-        view.tampilkanPesan("--- TAMBAH DATA PUTUSAN ---");
-        String nomor = view.ambilInputTeks("Nomor Putusan");
-        String terdakwa = view.ambilInputTeks("Nama Terdakwa");
-        String jenis = view.ambilInputTeks("Jenis Narkotika");
-        double berat = view.ambilInputAngkaDesimal("Berat Barang Bukti (Gram)");
-        String pasal = view.ambilInputTeks("Pasal yang Dilanggar");
-        String vonis = view.ambilInputTeks("Vonis Hukuman");
+    private void muatDatasetPdf() {
+        System.out.print("Masukkan lokasi folder tempat PDF berada (contoh: C:/Tugas/PDF): ");
+        String pathFolder = inputHandler.ambilInputTeks();
+        File folder = new File(pathFolder);
 
-        Putusan putusanBaru = new Putusan(nomor, terdakwa, jenis, berat, pasal, vonis);
-        repository.tambahData(putusanBaru);
+        if (folder.exists() && folder.isDirectory()) {
+            File[] daftarFile = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
 
-        view.tampilkanPesan("Data putusan berhasil ditambahkan ke dalam sistem!");
-    }
+            if (daftarFile != null && daftarFile.length > 0) {
+                System.out.println("Menemukan " + daftarFile.length + " file PDF. Memulai ekstraksi...");
+                int sukses = 0;
 
-    private void tampilkanSemuaData() {
-        view.tampilkanPesan("--- DAFTAR SELURUH PUTUSAN ---");
-        ArrayList<Putusan> daftar = repository.getSemuaData();
-
-        if (daftar.isEmpty()) {
-            view.tampilkanPesan("Belum ada data putusan di dalam sistem.");
+                for (File file : daftarFile) {
+                    Putusan putusanBaru = pdfReader.prosesPdfKeObjek(file.getAbsolutePath());
+                    repository.tambahData(putusanBaru);
+                    sukses++;
+                }
+                System.out.println("Berhasil memuat " + sukses + " data putusan ke dalam memori!");
+            } else {
+                System.out.println("[ERROR] Folder ditemukan, tapi tidak ada file berakhiran .pdf di dalamnya.");
+            }
         } else {
-            for (Putusan p : daftar) {
-                System.out.println("- No: " + p.getNomorPutusan() +
-                        " | Terdakwa: " + p.getNamaTerdakwa() +
-                        " | Narkotika: " + p.getJenisNarkotika() +
-                        " (" + p.getBeratBarangBukti() + "g) | Vonis: " + p.getVonis());
-            }
-            view.tampilkanPesan("Total Data: " + repository.getTotalData());
+            System.out.println("[ERROR] Folder tidak ditemukan. Pastikan path yang diketik benar.");
         }
     }
 
-    private void cariDataPutusan() {
-        view.tampilkanPesan("--- PENCARIAN PUTUSAN ---");
-        String keyword = view.ambilInputTeks("Masukkan Nomor Putusan atau Nama Terdakwa");
-        boolean ditemukan = false;
-
-        for (Putusan p : repository.getSemuaData()) {
-            if (p.getNomorPutusan().toLowerCase().contains(keyword.toLowerCase()) ||
-                    p.getNamaTerdakwa().toLowerCase().contains(keyword.toLowerCase())) {
-
-                System.out.println("\n[DATA DITEMUKAN]");
-                System.out.println("Nomor Putusan : " + p.getNomorPutusan());
-                System.out.println("Terdakwa      : " + p.getNamaTerdakwa());
-                System.out.println("Narkotika     : " + p.getJenisNarkotika() + " (" + p.getBeratBarangBukti() + " gram)");
-                System.out.println("Pasal         : " + p.getPasal());
-                System.out.println("Vonis         : " + p.getVonis());
-                ditemukan = true;
+    private void tampilkanData() {
+        ArrayList<Putusan> daftar = repository.getSemuaData();
+        if (daftar.isEmpty()) {
+            System.out.println("Belum ada data. Silakan muat dataset PDF (Menu 1) terlebih dahulu.");
+        } else {
+            System.out.println("\n--- DAFTAR PUTUSAN ---");
+            for (Putusan p : daftar) {
+                System.out.println("- No: " + p.getNomorPutusan() + " | Terdakwa: " + p.getNamaTerdakwa() + " | Vonis: " + p.getVonis());
             }
+            System.out.println("Total Data: " + repository.getTotalData());
+        }
+    }
+
+    private void tampilkanStatistik() {
+        ArrayList<Putusan> daftar = repository.getSemuaData();
+        if (daftar.isEmpty()) {
+            System.out.println("Belum ada data. Silakan muat dataset PDF (Menu 1) terlebih dahulu.");
+            return;
         }
 
-        if (!ditemukan) {
-            view.tampilkanPesan("Data dengan kata kunci '" + keyword + "' tidak ditemukan.");
-        }
+        System.out.println("\n--- ANALISIS STATISTIK ---");
+        double rataRata = statistik.hitungRataRataBerat(daftar);
+        System.out.println("Rata-rata berat barang bukti dari seluruh kasus: " + rataRata + " gram");
+
+        int kasusSabu = statistik.hitungTotalPerJenis(daftar, "Sabu");
+        int kasusGanja = statistik.hitungTotalPerJenis(daftar, "Ganja");
+        System.out.println("Total kasus yang melibatkan Sabu-sabu: " + kasusSabu + " kasus");
+        System.out.println("Total kasus yang melibatkan Ganja: " + kasusGanja + " kasus");
     }
 }
