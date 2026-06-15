@@ -6,7 +6,7 @@ public class ConsoleView {
     private Scanner scanner;
 
     public ConsoleView() {
-        // Inisialisasi alat pembaca input keyboard
+
         this.scanner = new Scanner(System.in);
     }
 
@@ -21,31 +21,31 @@ public class ConsoleView {
         System.out.println("=============================================");
     }
 
-    // Fungsi untuk meminta *user* memilih angka menu
+
     public int ambilPilihanMenu() {
         System.out.print("Masukkan pilihan Anda (1-4): ");
         while (!scanner.hasNextInt()) {
             System.out.println("[ERROR] Input tidak valid! Harap masukkan angka.");
-            scanner.next(); // Membersihkan input yang salah
+            scanner.next();
             System.out.print("Masukkan pilihan Anda (1-4): ");
         }
         int pilihan = scanner.nextInt();
-        scanner.nextLine(); // Membersihkan sisa enter (newline)
+        scanner.nextLine();
         return pilihan;
     }
 
-    // Fungsi serbaguna untuk menampilkan notifikasi ke layar
+
     public void tampilkanPesan(String pesan) {
         System.out.println(">> " + pesan);
     }
 
-    // Fungsi untuk meminta input teks panjang dari *user*
+
     public String ambilInputTeks(String perintah) {
         System.out.print(perintah + ": ");
         return scanner.nextLine();
     }
 
-    // Fungsi untuk meminta input angka desimal (misal: berat barang bukti)
+
     public double ambilInputAngkaDesimal(String perintah) {
         System.out.print(perintah + ": ");
         while (!scanner.hasNextDouble()) {
