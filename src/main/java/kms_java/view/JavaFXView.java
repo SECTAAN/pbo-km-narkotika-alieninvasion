@@ -14,8 +14,9 @@ public class JavaFXView {
     private Button btnLoadPdf;
     private Button btnStatistik;
     private Button btnHapus;
-
     private Button btnClear;
+
+    private Button btnExport;
 
     private TextField txtCari;
     private Button btnCari;
@@ -30,7 +31,6 @@ public class JavaFXView {
         btnLoadPdf = new Button("Muat Data PDF dari Folder");
         btnLoadPdf.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;");
 
-
         btnClear = new Button("Bersihkan Tabel");
         btnClear.setStyle("-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;");
 
@@ -41,8 +41,12 @@ public class JavaFXView {
         btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
 
 
+        btnExport = new Button("Export TXT (+2 Poin)");
+        btnExport.setStyle("-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold;");
+
         HBox boxAksiData = new HBox(10, btnLoadPdf, btnClear);
-        HBox boxAksiLanjutan = new HBox(10, btnStatistik, btnHapus);
+
+        HBox boxAksiLanjutan = new HBox(10, btnStatistik, btnHapus, btnExport);
 
         VBox topBox = new VBox(10, lblTitle, boxAksiData, boxAksiLanjutan);
         topBox.setPadding(new Insets(0, 0, 10, 0));
@@ -91,8 +95,9 @@ public class JavaFXView {
     public Button getBtnLoadPdf() { return btnLoadPdf; }
     public Button getBtnStatistik() { return btnStatistik; }
     public Button getBtnHapus() { return btnHapus; }
+    public Button getBtnClear() { return btnClear; }
     public TextField getTxtCari() { return txtCari; }
     public Button getBtnCari() { return btnCari; }
 
-    public Button getBtnClear() { return btnClear; }
+    public Button getBtnExport() { return btnExport; }
 }
