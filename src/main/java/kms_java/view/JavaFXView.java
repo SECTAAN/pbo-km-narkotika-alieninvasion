@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import kms_java.model.Putusan;
 
@@ -14,10 +15,13 @@ public class JavaFXView {
     private Button btnStatistik;
     private Button btnHapus;
 
+
+    private TextField txtCari;
+    private Button btnCari;
+
     public JavaFXView() {
         mainLayout = new BorderPane();
         mainLayout.setPadding(new Insets(20));
-
 
         Label lblTitle = new Label("KMS Putusan Pengadilan Narkotika (GUI)");
         lblTitle.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
@@ -32,9 +36,22 @@ public class JavaFXView {
         btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
 
         VBox topBox = new VBox(10, lblTitle, btnLoadPdf, btnStatistik, btnHapus);
-        topBox.setPadding(new Insets(0, 0, 15, 0));
-        mainLayout.setTop(topBox);
+        topBox.setPadding(new Insets(0, 0, 10, 0));
 
+
+        txtCari = new TextField();
+        txtCari.setPromptText("Cari nama terdakwa atau nomor...");
+        txtCari.setPrefWidth(250);
+
+        btnCari = new Button("Cari Data");
+        btnCari.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        HBox searchBox = new HBox(10, new Label("Pencarian:"), txtCari, btnCari);
+        searchBox.setPadding(new Insets(0, 0, 15, 0));
+
+
+        VBox kombinasiHeader = new VBox(10, topBox, searchBox);
+        mainLayout.setTop(kombinasiHeader);
 
         table = new TableView<>();
 
@@ -58,15 +75,17 @@ public class JavaFXView {
         colVonis.setCellValueFactory(new PropertyValueFactory<>("vonis"));
         colVonis.setPrefWidth(250);
 
-
         table.getColumns().addAll(colNomor, colTerdakwa, colJenis, colBerat, colVonis);
         mainLayout.setCenter(table);
     }
-
 
     public BorderPane getMainLayout() { return mainLayout; }
     public TableView<Putusan> getTable() { return table; }
     public Button getBtnLoadPdf() { return btnLoadPdf; }
     public Button getBtnStatistik() { return btnStatistik; }
     public Button getBtnHapus() { return btnHapus; }
+
+
+    public TextField getTxtCari() { return txtCari; }
+    public Button getBtnCari() { return btnCari; }
 }
