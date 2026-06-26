@@ -123,6 +123,12 @@ public class Putusan extends DokumenHukum implements Comparable<Putusan> {
 
     @Override
     public int compareTo(Putusan lainnya) {
-        return Double.compare(lainnya.getBeratBarangBukti(), this.beratBarangBukti);
+        int bandingVonis = Integer.compare(lainnya.getVonisHukuman(), this.vonisHukuman);
+
+        if (bandingVonis == 0) {
+            return Double.compare(lainnya.getVonisDenda(), this.vonisDenda);
+        }
+
+        return bandingVonis;
     }
 }
