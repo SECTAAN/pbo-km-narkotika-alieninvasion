@@ -66,8 +66,8 @@ public class JavaFXView {
 
         table = new TableView<>();
 
-        TableColumn<Putusan, String> colNomor = new TableColumn<>("Nomor Putusan");
-        colNomor.setCellValueFactory(new PropertyValueFactory<>("nomorPutusan"));
+        TableColumn<Putusan, String> colNomor = new TableColumn<>("Nomor Perkara");
+        colNomor.setCellValueFactory(new PropertyValueFactory<>("nomorPerkara"));
         colNomor.setPrefWidth(150);
 
         TableColumn<Putusan, String> colTerdakwa = new TableColumn<>("Nama Terdakwa");
@@ -76,19 +76,22 @@ public class JavaFXView {
 
         TableColumn<Putusan, String> colJenis = new TableColumn<>("Jenis Narkotika");
         colJenis.setCellValueFactory(new PropertyValueFactory<>("jenisNarkotika"));
-        colJenis.setPrefWidth(150);
+        colJenis.setPrefWidth(120);
 
         TableColumn<Putusan, Double> colBerat = new TableColumn<>("Berat (g)");
         colBerat.setCellValueFactory(new PropertyValueFactory<>("beratBarangBukti"));
-        colBerat.setPrefWidth(100);
+        colBerat.setPrefWidth(80);
 
-        TableColumn<Putusan, String> colVonis = new TableColumn<>("Vonis");
-        colVonis.setCellValueFactory(new PropertyValueFactory<>("vonis"));
-        colVonis.setPrefWidth(250);
+        TableColumn<Putusan, Integer> colVonis = new TableColumn<>("Vonis (Bulan)");
+        colVonis.setCellValueFactory(new PropertyValueFactory<>("vonisHukuman"));
+        colVonis.setPrefWidth(100);
 
-        table.getColumns().addAll(colNomor, colTerdakwa, colJenis, colBerat, colVonis);
+        TableColumn<Putusan, Double> colDenda = new TableColumn<>("Denda (Rp)");
+        colDenda.setCellValueFactory(new PropertyValueFactory<>("vonisDenda"));
+        colDenda.setPrefWidth(150);
+
+        table.getColumns().addAll(colNomor, colTerdakwa, colJenis, colBerat, colVonis, colDenda);
         mainLayout.setCenter(table);
-
 
         lblStatus = new Label("Total Data: 0 | Siap Digunakan");
         lblStatus.setStyle("-fx-font-weight: bold; -fx-padding: 10px 0 0 0; -fx-text-fill: #7f8c8d;");
