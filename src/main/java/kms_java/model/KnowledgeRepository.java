@@ -5,21 +5,52 @@ import java.util.ArrayList;
 public class KnowledgeRepository {
     private ArrayList<Putusan> daftarPutusan = new ArrayList<>();
 
-    public void tambahData(Putusan p) {
+    public void simpan(Putusan p) {
         daftarPutusan.add(p);
     }
 
-    public ArrayList<Putusan> getSemuaData() {
-        return daftarPutusan;
+    public Putusan cariByNomor(String nomor) {
+        for (Putusan p : daftarPutusan) {
+            if (p.getNomorPerkara().equalsIgnoreCase(nomor)) {
+                return p;
+            }
+        }
+        return null;
     }
 
-    public int getTotalData() {
-        return daftarPutusan.size();
+    public ArrayList<Putusan> cariByNama(String nama) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            if (p.getNamaTerdakwa().toLowerCase().contains(nama.toLowerCase())) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
+    }
+
+    public ArrayList<Putusan> filterByJenis(String jenis) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            if (p.getJenisNarkotika() != null && p.getJenisNarkotika().toLowerCase().contains(jenis.toLowerCase())) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
+    }
+
+    public ArrayList<Putusan> filterByPengadilan(String pengadilan) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            if (p.getPengadilan() != null && p.getPengadilan().toLowerCase().contains(pengadilan.toLowerCase())) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
     }
 
     public boolean hapus(String nomor) {
         for (int i = 0; i < daftarPutusan.size(); i++) {
-            if (daftarPutusan.get(i).getNomorPutusan().equalsIgnoreCase(nomor)) {
+            if (daftarPutusan.get(i).getNomorPerkara().equalsIgnoreCase(nomor)) {
                 daftarPutusan.remove(i);
                 return true;
             }
@@ -27,14 +58,11 @@ public class KnowledgeRepository {
         return false;
     }
 
-    public ArrayList<Putusan> cari(String keyword) {
-        ArrayList<Putusan> hasil = new ArrayList<>();
-        for (Putusan p : daftarPutusan) {
-            if (p.getNomorPutusan().toLowerCase().contains(keyword.toLowerCase()) ||
-                    p.getNamaTerdakwa().toLowerCase().contains(keyword.toLowerCase())) {
-                hasil.add(p);
-            }
-        }
-        return hasil;
+    public ArrayList<Putusan> getDaftarSemua() {
+        return daftarPutusan;
+    }
+
+    public int getTotalData() {
+        return daftarPutusan.size();
     }
 }
