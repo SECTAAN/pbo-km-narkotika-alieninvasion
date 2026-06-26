@@ -1,0 +1,26 @@
+=== LAPORAN STATISTIK PUTUSAN PENGADILAN NARKOTIKA ===
+
+Total Data Diekstrak  : 18 Kasus
+Rata-rata Vonis       : 24.0 Bulan
+Jenis Kasus Terbanyak : Sabu-sabu
+
+=== DAFTAR PUTUSAN (Diurutkan Berdasarkan Berat Bukti Terbesar) ===
+Putusan{No='2432/Pid.Sus/2023/PN.Sby.', Terdakwa='Moch Wahyu Nugroho Bin Salim', Jenis='Narkotika Golongan I', Berat=10.627g, Vonis=8 bulan}
+Putusan{No='2514/Pid.Sus/2023/PN.Sby.', Terdakwa='Yusuf Mariantono Bin Djoko', Jenis='Narkotika Golongan I', Berat=7.052g, Vonis=8 bulan}
+Putusan{No='2536/Pid.Sus/2023/PN.Sby.', Terdakwa='Calpin  Mirsap  As  Slami  Bin  Winarto', Jenis='sabu', Berat=4.16g, Vonis=19 bulan}
+Putusan{No='2321/Pid.Sus/2023/PN', Terdakwa='Siami Alias Sami Binti Djali (alm)', Jenis='Narkotika Golongan I', Berat=1.17g, Vonis=7 bulan}
+Putusan{No='2311/Pid.Sus/2023/PN.Sby', Terdakwa='Achmad Siswoyo Bin Slamet Riyadi', Jenis='sabu', Berat=1.0g, Vonis=7 bulan}
+Putusan{No='2434/Pid.Sus/2023/PN', Terdakwa='Heru Oktavianto Bin Suprapto', Jenis='Narkotika Golongan I', Berat=1.0g, Vonis=108 bulan}
+Putusan{No='2495/Pid.Sus/2023/PN', Terdakwa='Mochamad Dulgani Alias Kholik Bin Dahruji', Jenis='Narkotika Golongan
+I', Berat=0.2g, Vonis=84 bulan}
+Putusan{No='2528/Pid.Sus/2023/PN', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Narkotika Golongan I', Berat=0.074g, Vonis=72 bulan}
+Putusan{No='1205', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=1 bulan}
+Putusan{No='140', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=0 bulan}
+Putusan{No='199/PDT/2025/PT', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=0 bulan}
+Putusan{No='2082', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Narkotika Golongan I', Berat=0.0g, Vonis=72 bulan}
+Putusan{No='64/Pdt.G/2025/PA.Ntn.', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=19 bulan}
+Putusan{No='70/Pdt.G/2025/PA.Ntn.', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=6 bulan}
+Putusan{No='7/Pdt.G/2025/PA.Wkb', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=6 bulan}
+Putusan{No='7/PID.SUS-Anak/2025/PT', Terdakwa='IKHWAN  ALFADIL  Pgl.  FADIL  BIN  HAYATUL', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=6 bulan}
+Putusan{No='8/Pdt.P/2025/PA.Wkb', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=1 bulan}
+Putusan{No='964/Pdt.G/2025/PA.Jbg', Terdakwa='Terdakwa (Nama Tidak Terbaca Sempurna)', Jenis='Tidak Ditemukan', Berat=0.0g, Vonis=8 bulan}
