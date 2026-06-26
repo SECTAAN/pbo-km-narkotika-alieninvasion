@@ -3,6 +3,7 @@ package kms_java.util;
 import kms_java.model.Putusan;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -22,7 +23,6 @@ public class PdfReader {
         String nomor = ekstrakDenganRegex(teksMentah, "Nomor\\s+([\\w\\/\\.-]+)\\s*");
         String terdakwa = ekstrakDenganRegex(teksMentah, "Terdakwa\\s+([A-Za-z\\s]+)\\s+");
         String jenis = ekstrakDenganRegex(teksMentah, "(Sabu|Ganja|Ekstasi|Narkotika Golongan\\s+[IVX]+)");
-        String vonis = ekstrakDenganRegex(teksMentah, "menjatuhkan\\s+pidana.*?selama\\s+([\\w\\s]+)\\s*");
 
         double berat = 0.0;
         String teksBerat = ekstrakDenganRegex(teksMentah, "([0-9]+[\\.,]?[0-9]*)\\s*(gram|gr)");
@@ -32,7 +32,19 @@ public class PdfReader {
             } catch (NumberFormatException ignored) {}
         }
 
-        return new Putusan(nomor, terdakwa, jenis, berat, "Pasal Narkotika", vonis);
+        String vonisTeks = ekstrakDenganRegex(teksMentah, "pidana.*?selama\\s+([\\w\\s]+)\\s*");
+        int vonisBulan = 0;
+        if (vonisTeks.contains("tahun")) {
+            vonisBulan = 60;
+        } else if (vonisTeks.contains("bulan")) {
+            vonisBulan = 12; 
+        }
+
+        return new Putusan(
+                nomor, "PN Default", "Belum Diketahui", terdakwa, 0,
+                jenis, berat, "Pasal 114 / 112", "Terdakwa",
+                vonisBulan, 0.0, "Belum Diketahui"
+        );
     }
 
     private String ekstrakDenganRegex(String teksLengkap, String polaRegex) {
