@@ -7,6 +7,7 @@ import javafx.scene.control.TextInputDialog;
 import kms_java.model.KnowledgeRepository;
 import kms_java.model.Putusan;
 import kms_java.model.StatistikPutusan;
+import kms_java.util.InputHandler;
 import kms_java.util.PdfReader;
 import kms_java.view.JavaFXView;
 
@@ -18,16 +19,13 @@ import java.util.Optional;
 
 public class KnowledgeController {
     private KnowledgeRepository repository;
-    private StatistikPutusan statistik;
     private PdfReader pdfReader;
     private JavaFXView guiView;
 
     public KnowledgeController(JavaFXView guiView) {
         this.repository = new KnowledgeRepository();
-        this.statistik = new StatistikPutusan();
         this.pdfReader = new PdfReader();
         this.guiView = guiView;
-
         inisialisasiEvent();
     }
 
@@ -53,13 +51,12 @@ public class KnowledgeController {
 
             if (folder.exists() && folder.isDirectory()) {
                 File[] daftarFile = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
-
                 if (daftarFile != null && daftarFile.length > 0) {
                     int sukses = 0;
                     for (File file : daftarFile) {
                         Putusan putusanBaru = pdfReader.prosesPdfKeObjek(file.getAbsolutePath());
                         if (putusanBaru != null) {
-                            repository.tambahData(putusanBaru);
+                            repository.simpan(putusanBaru);
                             sukses++;
                         }
                     }
@@ -77,7 +74,7 @@ public class KnowledgeController {
     private void hapusData() {
         Putusan terpilih = guiView.getTable().getSelectionModel().getSelectedItem();
         if (terpilih != null) {
-            boolean sukses = repository.hapus(terpilih.getNomorPutusan());
+            boolean sukses = repository.hapus(terpilih.getNomorPerkara());
             if (sukses) {
                 perbaruiTabel();
                 tampilkanAlert(Alert.AlertType.INFORMATION, "Sukses", "Data berhasil dihapus!");
@@ -96,52 +93,65 @@ public class KnowledgeController {
     private void cariData() {
         String keyword = guiView.getTxtCari().getText();
         if (keyword != null && !keyword.trim().isEmpty()) {
-            ArrayList<Putusan> hasil = repository.cari(keyword);
+            ArrayList<Putusan> hasilCariNama = repository.cariByNama(keyword);
+            Putusan hasilCariNomor = repository.cariByNomor(keyword);
 
-            Collections.sort(hasil);
+            if (hasilCariNomor != null && !hasilCariNama.contains(hasilCariNomor)) {
+                hasilCariNama.add(hasilCariNomor);
+            }
 
-            ObservableList<Putusan> dataTabel = FXCollections.observableArrayList(hasil);
+            Collections.sort(hasilCariNama);
+            ObservableList<Putusan> dataTabel = FXCollections.observableArrayList(hasilCariNama);
             guiView.getTable().setItems(dataTabel);
-            guiView.getLblStatus().setText("Hasil pencarian: " + hasil.size() + " data ditemukan");
+            guiView.getLblStatus().setText("Hasil pencarian: " + hasilCariNama.size() + " data ditemukan");
         } else {
             perbaruiTabel();
         }
     }
 
     private void tampilkanStatistik() {
-        ArrayList<Putusan> daftar = repository.getSemuaData();
+        ArrayList<Putusan> daftar = repository.getDaftarSemua();
         if (daftar.isEmpty()) {
             tampilkanAlert(Alert.AlertType.WARNING, "Peringatan", "Data masih kosong. Muat PDF terlebih dahulu.");
             return;
         }
 
-        double rataRata = statistik.hitungRataRataBerat(daftar);
-        String jenisTerbanyak = statistik.getJenisTerbanyak(daftar);
+        StatistikPutusan stat = new StatistikPutusan(daftar);
+        stat.hitungSemua();
 
-        String pesan = "Total Data Putusan: " + daftar.size() + " Kasus\n"
-                + "Rata-rata berat barang bukti: " + rataRata + " gram\n"
-                + "Jenis Narkotika Terbanyak: " + jenisTerbanyak;
+        StringBuilder pesan = new StringBuilder();
+        pesan.append("Total Data Putusan: ").append(stat.getTotalPutusan()).append(" Kasus\n");
+        pesan.append("Rata-rata Vonis Hukuman: ").append(stat.getRataRataVonis()).append(" Bulan\n");
+        pesan.append("Jenis Narkotika Terbanyak: ").append(stat.getJenisNarkotikaTerbanyak()).append("\n\n");
+        pesan.append("--- Distribusi Peran (Menggunakan Array) ---\n");
 
-        tampilkanAlert(Alert.AlertType.INFORMATION, "Analisis Statistik", pesan);
+        for (String peran : stat.getDistribusiPeran()) {
+            pesan.append("- ").append(peran).append("\n");
+        }
+
+        tampilkanAlert(Alert.AlertType.INFORMATION, "Analisis Statistik", pesan.toString());
     }
 
     private void exportKeTxt() {
-        ArrayList<Putusan> daftar = repository.getSemuaData();
+        ArrayList<Putusan> daftar = repository.getDaftarSemua();
         if (daftar.isEmpty()) {
             tampilkanAlert(Alert.AlertType.WARNING, "Peringatan", "Tidak ada data untuk diekspor!");
             return;
         }
 
+        StatistikPutusan stat = new StatistikPutusan(daftar);
+        stat.hitungSemua();
+
         try (FileWriter writer = new FileWriter("Laporan_Statistik_KMS.txt")) {
             writer.write("=== LAPORAN STATISTIK PUTUSAN PENGADILAN NARKOTIKA ===\n\n");
-            writer.write("Total Data Diekstrak  : " + daftar.size() + " Kasus\n");
-            writer.write("Rata-rata Berat Bukti : " + statistik.hitungRataRataBerat(daftar) + " gram\n");
-            writer.write("Jenis Kasus Terbanyak : " + statistik.getJenisTerbanyak(daftar) + "\n\n");
+            writer.write("Total Data Diekstrak  : " + stat.getTotalPutusan() + " Kasus\n");
+            writer.write("Rata-rata Vonis       : " + stat.getRataRataVonis() + " Bulan\n");
+            writer.write("Jenis Kasus Terbanyak : " + stat.getJenisNarkotikaTerbanyak() + "\n\n");
             writer.write("=== DAFTAR PUTUSAN (Diurutkan Berdasarkan Berat Bukti Terbesar) ===\n");
 
             Collections.sort(daftar);
             for (Putusan p : daftar) {
-                writer.write("- No: " + p.getNomorPutusan() + " | Terdakwa: " + p.getNamaTerdakwa() + " | Bukti: " + p.getBeratBarangBukti() + "g\n");
+                writer.write(p.toString() + "\n");
             }
 
             tampilkanAlert(Alert.AlertType.INFORMATION, "Sukses", "Data berhasil diekspor ke Laporan_Statistik_KMS.txt (Poin Bonus +2!)");
@@ -151,13 +161,11 @@ public class KnowledgeController {
     }
 
     private void perbaruiTabel() {
-        ArrayList<Putusan> daftar = repository.getSemuaData();
-
+        ArrayList<Putusan> daftar = repository.getDaftarSemua();
         Collections.sort(daftar);
 
         ObservableList<Putusan> dataTabel = FXCollections.observableArrayList(daftar);
         guiView.getTable().setItems(dataTabel);
-
         guiView.getLblStatus().setText("Total Data Tersimpan: " + daftar.size() + " | Memori Siap");
     }
 
