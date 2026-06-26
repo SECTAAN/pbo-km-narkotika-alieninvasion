@@ -16,11 +16,8 @@ public class JavaFXView {
     private Button btnHapus;
     private Button btnClear;
     private Button btnExport;
-
     private TextField txtCari;
     private Button btnCari;
-
-
     private Label lblStatus;
 
     public JavaFXView() {
@@ -32,32 +29,25 @@ public class JavaFXView {
 
         btnLoadPdf = new Button("Muat Data PDF dari Folder");
         btnLoadPdf.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;");
-
         btnClear = new Button("Bersihkan Tabel");
         btnClear.setStyle("-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold;");
-
         btnStatistik = new Button("Tampilkan Analisis Statistik");
         btnStatistik.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;");
-
         btnHapus = new Button("Hapus Data Terpilih");
         btnHapus.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;");
-
         btnExport = new Button("Export TXT");
         btnExport.setStyle("-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-font-weight: bold;");
 
         HBox boxAksiData = new HBox(10, btnLoadPdf, btnClear);
         HBox boxAksiLanjutan = new HBox(10, btnStatistik, btnHapus, btnExport);
-
         VBox topBox = new VBox(10, lblTitle, boxAksiData, boxAksiLanjutan);
         topBox.setPadding(new Insets(0, 0, 10, 0));
 
         txtCari = new TextField();
         txtCari.setPromptText("Cari nama terdakwa atau nomor...");
         txtCari.setPrefWidth(250);
-
         btnCari = new Button("Cari Data");
         btnCari.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;");
-
         HBox searchBox = new HBox(10, new Label("Pencarian:"), txtCari, btnCari);
         searchBox.setPadding(new Insets(0, 0, 15, 0));
 
@@ -70,9 +60,21 @@ public class JavaFXView {
         colNomor.setCellValueFactory(new PropertyValueFactory<>("nomorPerkara"));
         colNomor.setPrefWidth(150);
 
+        TableColumn<Putusan, String> colPengadilan = new TableColumn<>("Pengadilan");
+        colPengadilan.setCellValueFactory(new PropertyValueFactory<>("pengadilan"));
+        colPengadilan.setPrefWidth(120);
+
+        TableColumn<Putusan, String> colTanggal = new TableColumn<>("Tanggal Putusan");
+        colTanggal.setCellValueFactory(new PropertyValueFactory<>("tanggalPutusan"));
+        colTanggal.setPrefWidth(120);
+
         TableColumn<Putusan, String> colTerdakwa = new TableColumn<>("Nama Terdakwa");
         colTerdakwa.setCellValueFactory(new PropertyValueFactory<>("namaTerdakwa"));
         colTerdakwa.setPrefWidth(200);
+
+        TableColumn<Putusan, Integer> colUmur = new TableColumn<>("Umur");
+        colUmur.setCellValueFactory(new PropertyValueFactory<>("umurTerdakwa"));
+        colUmur.setPrefWidth(60);
 
         TableColumn<Putusan, String> colJenis = new TableColumn<>("Jenis Narkotika");
         colJenis.setCellValueFactory(new PropertyValueFactory<>("jenisNarkotika"));
@@ -82,6 +84,14 @@ public class JavaFXView {
         colBerat.setCellValueFactory(new PropertyValueFactory<>("beratBarangBukti"));
         colBerat.setPrefWidth(80);
 
+        TableColumn<Putusan, String> colPasal = new TableColumn<>("Pasal Dilanggar");
+        colPasal.setCellValueFactory(new PropertyValueFactory<>("pasalDilanggar"));
+        colPasal.setPrefWidth(150);
+
+        TableColumn<Putusan, String> colPeran = new TableColumn<>("Peran Terdakwa");
+        colPeran.setCellValueFactory(new PropertyValueFactory<>("peranTerdakwa"));
+        colPeran.setPrefWidth(120);
+
         TableColumn<Putusan, Integer> colVonis = new TableColumn<>("Vonis (Bulan)");
         colVonis.setCellValueFactory(new PropertyValueFactory<>("vonisHukuman"));
         colVonis.setPrefWidth(100);
@@ -89,7 +99,6 @@ public class JavaFXView {
         TableColumn<Putusan, Double> colDenda = new TableColumn<>("Denda (Rp)");
         colDenda.setCellValueFactory(new PropertyValueFactory<>("vonisDenda"));
         colDenda.setPrefWidth(150);
-
         colDenda.setCellFactory(tc -> new TableCell<Putusan, Double>() {
             @Override
             protected void updateItem(Double denda, boolean empty) {
@@ -102,7 +111,14 @@ public class JavaFXView {
             }
         });
 
-        table.getColumns().addAll(colNomor, colTerdakwa, colJenis, colBerat, colVonis, colDenda);
+        TableColumn<Putusan, String> colHakim = new TableColumn<>("Nama Hakim");
+        colHakim.setCellValueFactory(new PropertyValueFactory<>("namaHakim"));
+        colHakim.setPrefWidth(150);
+
+        table.getColumns().addAll(
+                colNomor, colPengadilan, colTanggal, colTerdakwa, colUmur,
+                colJenis, colBerat, colPasal, colPeran, colVonis, colDenda, colHakim
+        );
         mainLayout.setCenter(table);
 
         lblStatus = new Label("Total Data: 0 | Siap Digunakan");
@@ -119,6 +135,5 @@ public class JavaFXView {
     public TextField getTxtCari() { return txtCari; }
     public Button getBtnCari() { return btnCari; }
     public Button getBtnExport() { return btnExport; }
-
     public Label getLblStatus() { return lblStatus; }
 }
