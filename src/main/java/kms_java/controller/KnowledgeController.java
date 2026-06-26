@@ -39,35 +39,28 @@ public class KnowledgeController {
     }
 
     private void muatDatasetPdf() {
-        TextInputDialog dialog = new TextInputDialog("D:/DatasetKMS");
-        dialog.setTitle("Muat Dataset PDF");
-        dialog.setHeaderText("Masukkan lokasi folder tempat file PDF berada");
-        dialog.setContentText("Path Folder:");
+        String pathFolder = "pdf-putusan";
+        File folder = new File(pathFolder);
 
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            String pathFolder = result.get();
-            File folder = new File(pathFolder);
+        if (folder.exists() && folder.isDirectory()) {
+            File[] daftarFile = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
 
-            if (folder.exists() && folder.isDirectory()) {
-                File[] daftarFile = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
-                if (daftarFile != null && daftarFile.length > 0) {
-                    int sukses = 0;
-                    for (File file : daftarFile) {
-                        Putusan putusanBaru = pdfReader.prosesPdfKeObjek(file.getAbsolutePath());
-                        if (putusanBaru != null) {
-                            repository.simpan(putusanBaru);
-                            sukses++;
-                        }
+            if (daftarFile != null && daftarFile.length > 0) {
+                int sukses = 0;
+                for (File file : daftarFile) {
+                    Putusan putusanBaru = pdfReader.prosesPdfKeObjek(file.getAbsolutePath());
+                    if (putusanBaru != null) {
+                        repository.simpan(putusanBaru);
+                        sukses++;
                     }
-                    perbaruiTabel();
-                    tampilkanAlert(Alert.AlertType.INFORMATION, "Sukses", "Berhasil memuat " + sukses + " data putusan!");
-                } else {
-                    tampilkanAlert(Alert.AlertType.WARNING, "Peringatan", "Tidak ada file PDF di folder tersebut.");
                 }
+                perbaruiTabel();
+                tampilkanAlert(Alert.AlertType.INFORMATION, "Sukses", "Berhasil memuat " + sukses + " data putusan secara otomatis dari folder project!");
             } else {
-                tampilkanAlert(Alert.AlertType.ERROR, "Error", "Folder tidak ditemukan!");
+                tampilkanAlert(Alert.AlertType.WARNING, "Peringatan", "Folder 'pdf-putusan' kosong. Harap masukkan file PDF ke dalamnya.");
             }
+        } else {
+            tampilkanAlert(Alert.AlertType.ERROR, "Error", "Folder 'pdf-putusan' tidak ditemukan!\nPastikan Anda sudah membuat folder 'pdf-putusan' sejajar dengan folder 'src'.");
         }
     }
 
