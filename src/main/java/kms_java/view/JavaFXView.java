@@ -90,6 +90,18 @@ public class JavaFXView {
         colDenda.setCellValueFactory(new PropertyValueFactory<>("vonisDenda"));
         colDenda.setPrefWidth(150);
 
+        colDenda.setCellFactory(tc -> new TableCell<Putusan, Double>() {
+            @Override
+            protected void updateItem(Double denda, boolean empty) {
+                super.updateItem(denda, empty);
+                if (empty || denda == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%,.0f", denda));
+                }
+            }
+        });
+
         table.getColumns().addAll(colNomor, colTerdakwa, colJenis, colBerat, colVonis, colDenda);
         mainLayout.setCenter(table);
 
