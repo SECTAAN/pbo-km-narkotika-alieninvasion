@@ -48,4 +48,18 @@ public class InputHandler {
             }
         }
     }
+
+    public static int validasiIntGUI(String input) throws NumberFormatException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new NumberFormatException("Input angka tidak boleh kosong!");
+        }
+        return Integer.parseInt(input.trim());
+    }
+
+    public static double validasiDoubleGUI(String input) throws NumberFormatException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new NumberFormatException("Input angka desimal tidak boleh kosong!");
+        }
+        return Double.parseDouble(input.replace(",", ".").trim());
+    }
 }
