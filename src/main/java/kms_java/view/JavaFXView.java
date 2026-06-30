@@ -10,13 +10,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import kms_java.model.Putusan;
 import java.io.File;
+import java.util.List;
 
 public class JavaFXView {
     private BorderPane mainLayout;
     private TableView<Putusan> table;
     private Button btnLoadPdf;
     private Button btnTambahManual;
-    private Button btnImport; // Tombol Baru untuk CSV
+    private Button btnImport;
     private Button btnStatistik;
     private Button btnHapus;
     private Button btnClear;
@@ -164,7 +165,6 @@ public class JavaFXView {
         mainLayout.setBottom(lblStatus);
     }
 
-
     public String[] tampilkanFormManualLengkap() {
         Dialog<String[]> dialog = new Dialog<>();
         dialog.setTitle("Form Tambah Putusan");
@@ -207,7 +207,6 @@ public class JavaFXView {
         return dialog.showAndWait().orElse(null);
     }
 
-
     public File tampilkanPilihFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Pilih File CSV atau TXT (Export)");
@@ -216,6 +215,25 @@ public class JavaFXView {
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
         return fileChooser.showOpenDialog(mainLayout.getScene().getWindow());
+    }
+
+
+    public void perbaruiDataTabel(List<Putusan> daftarList, String pesanStatus) {
+        javafx.collections.ObservableList<Putusan> dataTabel = javafx.collections.FXCollections.observableArrayList(daftarList);
+        table.setItems(dataTabel);
+        lblStatus.setText(pesanStatus);
+    }
+
+    public void tampilkanPesanAlert(String tipe, String judul, String pesan) {
+        Alert.AlertType alertType = Alert.AlertType.INFORMATION;
+        if (tipe.equals("ERROR")) alertType = Alert.AlertType.ERROR;
+        else if (tipe.equals("WARNING")) alertType = Alert.AlertType.WARNING;
+
+        Alert alert = new Alert(alertType);
+        alert.setTitle(judul);
+        alert.setHeaderText(null);
+        alert.setContentText(pesan);
+        alert.showAndWait();
     }
 
     public BorderPane getMainLayout() { return mainLayout; }
