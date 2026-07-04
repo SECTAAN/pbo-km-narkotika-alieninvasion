@@ -179,7 +179,7 @@ https://github.com/SECTAAN/pbo-km-narkotika-alieninvasion
 
 Video Demo:
 
-not yet
+https://youtu.be/J44eJ-FwQZo
 ---
 
 # Anggota Kelompok
